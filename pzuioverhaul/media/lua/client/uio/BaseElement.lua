@@ -28,6 +28,7 @@ function UIO.BaseElement.new(px, py, pw, ph)
 	local borderColor = {r=0.4, g=0.4, b=0.4, a=1};
 	local backgroundColor = {r=0.1, g=0.1, b=0.1, a=0.5};
 	local backgroundColorMouseOver = {r=0, g=0, b=0, a=0};
+	local anchor = {l=false, r=false, t=false, b=false};
 	local joyPadFocus = nil;
 	local mouseOver = false;
 
@@ -35,6 +36,8 @@ function UIO.BaseElement.new(px, py, pw, ph)
 	local MIN_Y = -1;
 	local MAX_X = -1; --getCore():getScreenWidth();
 	local MAX_Y = -1; --getCore():getScreenHeight();
+	local MIN_H = -1;
+	local MIN_W = -1;
 	local x = px;
 	local y = py;
 	local w = pw;
@@ -214,6 +217,20 @@ function UIO.BaseElement.new(px, py, pw, ph)
 		MAX_Y = my;
 	end
 	-- }}}
+	function self:setMinH(mh) -- {{{
+		MIN_H = mh;
+		if MIN_H > self:getHeight() then
+			self:setHeight(MIN_H);
+		end
+	end
+	-- }}}
+	function self:setMinW(mw) -- {{{
+		MIN_W = mw;
+		if MIN_W > self:getWidth() then
+			self:setWidth(MIN_W);
+		end
+	end
+	-- }}}
 	function self:setX(nx) -- {{{
 		if MIN_X > -1 and MAX_X > -1 then
 			x = clamp(MIN_X, nx, MAX_X - w);
@@ -233,15 +250,29 @@ function UIO.BaseElement.new(px, py, pw, ph)
 	end
 	-- }}}
 	function self:setWidth(nw) -- {{{
+		nw = math.max(nw, MIN_W);
+		local oldWidth = w;
 		w = nw;
 		jObj:setWidth(w);
 		self:setX(x);
+
+		for _,o in pairs(children) do
+			o:setWidth(o:getWidth() * w / oldWidth);
+			o:setX(o:getX() * w / oldWidth);
+		end
 	end
 	-- }}}
 	function self:setHeight(nh) -- {{{
+		nh = math.max(nh, MIN_H);
+		local oldHeight = h;
 		h = nh;
 		jObj:setHeight(h);
 		self:setY(y);
+
+		for _,o in pairs(children) do
+			o:setHeight(o:getHeight() * h / oldHeight);
+			o:setY(o:getY() * h / oldHeight);
+		end
 	end
 	-- }}}
 	function self:setPosition(nx, ny) -- {{{
@@ -359,6 +390,26 @@ function UIO.BaseElement.new(px, py, pw, ph)
 	-- }}}
 	function self:isMouseOver() -- {{{
 		return mouseOver;
+	end
+	-- }}}
+	function ISUIElement:setAnchorBottom(bAnchor) -- {{{
+		anchor.b = bAnchor;
+		jObj:setAnchorBottom(bAnchor);
+	end
+	-- }}}
+	function ISUIElement:setAnchorTop(bAnchor) -- {{{
+		anchor.t = bAnchor;
+		jObj:setAnchorTop(bAnchor);
+	end
+	-- }}}
+	function ISUIElement:setAnchorLeft(bAnchor) -- {{{
+		anchor.l = bAnchor;
+		jObj:setAnchorLeft(bAnchor);
+	end
+	-- }}}
+	function ISUIElement:setAnchorRight(bAnchor) -- {{{
+		anchor.r = bAnchor;
+		jObj:setAnchorRight(bAnchor);
 	end
 	-- }}}
 

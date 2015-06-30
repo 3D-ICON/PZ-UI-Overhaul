@@ -6,8 +6,8 @@ function UIO.Panel.new(x, y, w, h)
 	local self = UIO.BaseElement.new(x, y, w, h);
 
 	function self:prerender()
-		self:drawRectangle('fill', 0, 0, w, h, self:getBackgroundColor());
-		self:drawRectangle('line', 0, 0, w, h, self:getBorderColor());
+		self:drawRectangle('fill', 0, 0, self:getWidth(), self:getHeight(), self:getBackgroundColor());
+		self:drawRectangle('line', 0, 0, self:getWidth(), self:getHeight(), self:getBorderColor());
 	end
 
 	self:setBackgroundColorRGBA(0.1, 0.1, 0.1, 0.5);

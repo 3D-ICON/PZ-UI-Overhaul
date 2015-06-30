@@ -1,6 +1,7 @@
 require 'uio/BaseElement'
 require 'uio/Panel'
 require 'uio/Draggable'
+require 'uio/Resizable'
 require 'uio/Titlebar'
 require 'uio/Button'
 
@@ -8,10 +9,12 @@ function callback(par1, par2, par3)
 	print("callback called with: "..tostring(par1)..", "..tostring(par2)..", "..tostring(par3));
 end
 
-local function pzuiodemo(player, context, items) -- {{{
+local function pzuiodemo(player, context, items)
 	local panel = UIO.Panel.new(100, 100, 200, 150);
+	panel:setMinW(30);
+	panel:setMinH(30);
 
-	local draggable = UIO.Draggable.new(0, 0, 200, 150);
+	local draggable = UIO.Draggable.new(0, 0, 200, 16);
 	panel:addChild(draggable);
 
 	local titlebar = UIO.Titlebar.new(0, 0, 200, 16);
@@ -23,8 +26,10 @@ local function pzuiodemo(player, context, items) -- {{{
 	button:setOnClick(callback, getSpecificPlayer(0):getForname(), getSpecificPlayer(0):getSurname(), "DIEDIEDIE");
 	panel:addChild(button);
 
+	local resizable = UIO.Resizable.new(0, panel:getHeight()-10, 200, 10);
+	panel:addChild(resizable);
+
 	panel:addToUIManager();
 end
--- }}}
 
 Events.OnFillInventoryObjectContextMenu.Add(pzuiodemo);

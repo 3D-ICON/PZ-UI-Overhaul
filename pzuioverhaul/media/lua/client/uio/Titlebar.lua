@@ -15,11 +15,11 @@ function UIO.Titlebar.new(x, y, w, h)
 		title = t;
 	end
 	function self:prerender()
-		self:drawRectangle("fill", 0, 0, self:getWidth(), self:getHeight(), self:getBackgroundColor());
-		self:drawTextureScaled(titleBarBackground, 1, 1, self:getWidth() - 1, self:getHeight() - 2);
-		self:drawRectangle("line", 0, 0, self:getWidth(), self:getHeight(), self:getBorderColor());
+		self:drawRectangle("fill", self:getX(), self:getY(), self:getWidth(), self:getHeight(), self:getBackgroundColor());
+		self:drawTextureScaled(titleBarBackground, self:getX()+1, self:getY()+1, self:getWidth() - 1, self:getHeight() - 2);
+		self:drawRectangle("line", self:getX(), self:getY(), self:getWidth(), self:getHeight(), self:getBorderColor());
 
-		self:drawTextCentered(title, self:getWidth() / 2, 1, textColor);
+		self:drawTextCentered(title, self:getWidth() / 2, self:getY()+1, textColor);
 	end
 
 	self:setBackgroundColorRGBA(0, 0, 0, 0.8);

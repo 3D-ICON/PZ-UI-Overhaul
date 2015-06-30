@@ -16,14 +16,14 @@ function UIO.Button.new(x, y, w, h)
 	function self:prerender() -- {{{
 		if self:isMouseOver() then
 			if isMouseDown then
-				self:drawRectangle('fill', 0, 0, w, h, mouseDownBackgroundColor);
+				self:drawRectangle('fill', 0, 0, self:getWidth(), self:getHeight(), mouseDownBackgroundColor);
 			else
-				self:drawRectangle('fill', 0, 0, w, h, self:getMouseOverBackgroundColor());
+				self:drawRectangle('fill', 0, 0, self:getWidth(), self:getHeight(), self:getMouseOverBackgroundColor());
 			end
 		else
-			self:drawRectangle('fill', 0, 0, w, h, self:getBackgroundColor());
+			self:drawRectangle('fill', 0, 0, self:getWidth(), self:getHeight(), self:getBackgroundColor());
 		end
-		self:drawRectangle('line', 0, 0, w, h, self:getBorderColor());
+		self:drawRectangle('line', 0, 0, self:getWidth(), self:getHeight(), self:getBorderColor());
 	end
 	-- }}}
 	function self:render() -- {{{
